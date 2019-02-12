@@ -12,10 +12,10 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
-    "chai": "^4.2.0",
     "commander": "^2.14.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "cover": "^0.2.9",
     "eslint": "^4.17.0",
     "istanbul": "^0.4.5",
