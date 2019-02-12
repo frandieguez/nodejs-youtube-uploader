@@ -1,0 +1,11 @@
+image: node:10.3.0
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - node
+        script:
+          - npm install
+          - npm run syntax
+          - npm test

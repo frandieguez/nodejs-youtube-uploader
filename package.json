@@ -1,0 +1,31 @@
+{
+  "name": "onm-youtube-uploader",
+  "version": "0.0.1",
+  "bin": {
+    "onm-youtube-uploader": "dist/onm-youtube-uploader"
+  },
+  "main": "dist/main.js",
+  "keywords": [
+    "cache",
+    "youtube"
+  ],
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "chai": "^4.2.0",
+    "commander": "^2.14.1"
+  },
+  "devDependencies": {
+    "cover": "^0.2.9",
+    "eslint": "^4.17.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.5.0",
+    "sinon": "^3.2.0"
+  },
+  "scripts": {
+    "cover": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha test -- --recursive",
+    "cover-report": "npm run cover && node_modules/.bin/istanbul report html --dir coverage",
+    "syntax": "node_modules/.bin/eslint src test --config .eslintrc",
+    "test": "node_modules/.bin/mocha test --recursive"
+  }
+}
