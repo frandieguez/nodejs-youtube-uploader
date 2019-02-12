@@ -12,7 +12,8 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
-    "commander": "^2.14.1"
+    "commander": "^2.14.1",
+    "dotenv": "^6.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
