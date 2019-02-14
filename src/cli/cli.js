@@ -1,26 +1,42 @@
-const commander = require('commander');
+const yargs = require('yargs');
 const console = require('console');
+const {uploadVideos } = require('./../commands/commands');
 
 class Cli {
   constructor(props) {
     this.config = props;
-    this.command = commander.version('0.0.1');
-
-    this.command
-      .command('upload')
-      .description('Uploads videos to Youtube ')
-      .option('-i, --input    <input>', 'The input file in CSV')
-      .option('-o, --output   <output>', 'The output file in CSV')
-      .option('-v, --verbose', 'Enable verbose mode')
-      .action(this.upload);
-  }
-
-  upload(options) {
-    console.log(options);
   }
 
   run() {
-    this.command.parse(process.argv);
+    this.args = yargs
+      .options({
+        input: {
+          demand: true,
+          alias: 'i',
+        },
+        output: {
+          demand: true,
+          alias: 'o',
+        },
+      })
+      .command(
+        'upload [input] [output]',
+        `Parses a input CSV file containing metadata of videos and then uploads them to Youtube`,
+        (yargs) => {
+          yargs.positional('input', {
+            type: 'string',
+            describe: 'the input file in CSV format'
+          });
+
+          yargs.positional('output', {
+            type: 'string',
+            describe: 'the name to say hello to'
+          })
+        },
+        uploadVideos
+      )
+      .help()
+      .argv
   }
 }
 
