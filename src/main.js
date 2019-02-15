@@ -1,10 +1,10 @@
-const { Cli } = require('./cli/cli');
-const process = require('process');
+const yargs    = require('yargs')
+const { join } = require('path')
 
 require('dotenv').config();
 
-const cli = new Cli({
-  token: process.env.YOUTUBE_TOKEN
-});
-
-cli.run();
+yargs
+  .commandDir(join(__dirname, 'commands'))
+  .demand(1)
+  .help()
+  .argv
