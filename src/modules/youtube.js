@@ -4,33 +4,40 @@ const csv = require('async-csv');
 
 /** Class that handles the video uploading processs. */
 class YoutubeUploader {
+
   /**
    * Create the handler.
    * @param {string} input - Path to the input CSV file.
    * @param {string} output - Path to the output CSV file.
+   * @param {Object} logger - The logger object to output logs into console
+   * @param {Object} youtubeApi - The youtubeApi gateway to upload videos to youtube
    */
-  constructor(input, output) {
+  constructor(input, output, logger, youtubeApi) {
     this.input = input;
     this.output = output;
+    this.logger = logger;
+    this.youtubeApi = youtubeApi;
   }
 
   /**
    * Runs the command
    */
   async run() {
-    // Parse the input file
-    let results = await this.parseCsvFile(this.input);
+    try {
 
-    // Processs and upload each video
-    results.map(async (video) => {
-      var info = await this.uploadVideo(video)
-      video.new_id = info;
+      // Parse the input file
+      let results = await this.parseCsvFile(this.input);
 
-      return video
-    });
+      // Processs and upload each video
+      results.map(async (video) => {
+        return await this.uploadVideo(video);
+      });
 
-    // Save uplading results into the output file
-    await this.saveOutputfile(this.output, results);
+      // Save uplading results into the output file
+      await this.saveOutputfile(this.output, results);
+    } catch (err) {
+      this.logger.err(`There was an general error: ${err}`);
+    }
   }
 
   /**
@@ -54,8 +61,8 @@ class YoutubeUploader {
    *
    * @param {string} filePath The output file
    */
-  async saveOutputFile(filePath, data) {
-    let output = await csv.stringify(data, {columns: Object.keys(data[0])});
+  async saveOutputfile(filePath, data) {
+    let output = await csv.stringify(data);
 
     return fs.writeFileSync(filePath, output);
   }
@@ -66,7 +73,9 @@ class YoutubeUploader {
    * @param {Object} video the video object to use to upload it to youtube
    */
   uploadVideo(video) {
-    return Math.random();
+    video.url = Math.random();
+
+    return video;
   }
 }
 

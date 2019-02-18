@@ -15,6 +15,7 @@
   "dependencies": {
     "async-csv": "^2.0.0",
     "dotenv": "^6.2.0",
+    "winston": "^3.2.1",
     "yargs": "^13.1.0"
   },
   "devDependencies": {
