@@ -14,8 +14,9 @@ exports.builder = {
     alias: 'o',
   },
 }
+exports.example = '$0 upload input-file.csv output-file.csv'
 exports.handler = (argv) => {
-  let command = new YoutubeUploader(argv);
+  let command = new YoutubeUploader(argv.input, argv.output);
 
   command.run()
 }
