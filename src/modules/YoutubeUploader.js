@@ -29,7 +29,8 @@ class YoutubeUploader {
 
       // Processs and upload each video
       results.map(async (video) => {
-        this.logger.info(video)
+        this.logger.info(`Uploading video: ${video.title}`)
+
         return await this.uploadVideo(video);
       });
 

@@ -3,18 +3,22 @@ const winston = require('winston');
 
 exports.command = 'upload [input] [output]'
 exports.desc =
-  'Parses a input CSV file containing metadata of '
+  'Parses an input CSV file containing metadata of '
   + 'videos and then uploads them to Youtube'
-exports.builder = {
-  input: {
+exports.builder = (yargs) => yargs
+  .option('auth', {
     demand: true,
-    alias: 'i',
-  },
-  output: {
-    demand: true,
-    alias: 'o',
-  },
-}
+    alias: 'a',
+  })
+  .positional('input', {
+    type: 'string',
+    description: 'The CSV input file to get info from'
+  })
+  .positional('output', {
+      type: 'string',
+      description: 'The output CSV file',
+      default: './output.csv'
+  })
 exports.example = '$0 upload input-file.csv output-file.csv'
 exports.handler = (argv) => {
   const logger = winston.createLogger({
