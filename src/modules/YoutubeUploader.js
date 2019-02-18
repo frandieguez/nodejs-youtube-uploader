@@ -24,19 +24,19 @@ class YoutubeUploader {
    */
   async run() {
     try {
-
       // Parse the input file
       let results = await this.parseCsvFile(this.input);
 
       // Processs and upload each video
       results.map(async (video) => {
+        this.logger.info(video)
         return await this.uploadVideo(video);
       });
 
       // Save uplading results into the output file
       await this.saveOutputfile(this.output, results);
     } catch (err) {
-      this.logger.err(`There was an general error: ${err}`);
+      this.logger.error(`There was an general error: ${err}`);
     }
   }
 

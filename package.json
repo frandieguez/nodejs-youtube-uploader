@@ -24,7 +24,7 @@
     "eslint": "^4.17.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.5.0",
-    "sinon": "^3.2.0"
+    "sinon": "^7.2.3"
   },
   "scripts": {
     "cover": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha test -- --recursive",
