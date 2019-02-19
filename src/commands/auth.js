@@ -1,6 +1,5 @@
 const YoutubeAuthCommand = require('../modules/YoutubeAuthCommand');
 const winston = require('winston');
-const fs = require('fs')
 
 exports.command = 'authenticate'
 exports.desc =
