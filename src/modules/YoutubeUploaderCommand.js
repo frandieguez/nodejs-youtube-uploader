@@ -31,25 +31,24 @@ class YoutubeUploaderCommand {
    * Runs the command
    */
   async run() {
-    let params = {
+    this.oauth = await Youtube.authenticate({
       type: 'oauth',
       client_id: this.credentials.installed.client_id,
       client_secret: this.credentials.installed.client_secret,
       redirect_url: 'http://localhost:5000/oauth2callback',
       access_token: this.credentials.installed.access_token,
-    }
-    this.oauth = Youtube.authenticate(params);
+    });
 
     try {
       // Parse the input file
       let results = await this.parseCsvFile(this.input);
 
-      // Processs and upload each video
-      results.map(async (video) => {
-        await this.uploadVideo(video);
-
-        return video
-      });
+      // Iterate over all videos and upload them.
+      for (let index = 0; index < results.length; index++) {
+        const video = results[index];
+        let result = await this.uploadVideo(video)
+        console.log(`finished ${result}`);
+      }
 
       // Save uplading results into the output file
       await this.saveOutputfile(this.output, results);
@@ -90,36 +89,37 @@ class YoutubeUploaderCommand {
    */
   async uploadVideo(video) {
     this.logger.info(`Uploading video: ${video.title}`)
-    // video.url = Math.random();
-
-    // var req =
-    await Youtube.videos.insert({
-        resource: {
-          // Video title and description
-          snippet: {
-            title: 'Testing YoutTube API NodeJS module',
-            description: 'Test video upload via YouTube API'
+    try {
+      // var req =
+      await Youtube.videos.insert({
+          resource: {
+            // Video title and description
+            snippet: {
+              title: video.title,
+              description: video.description,
+            },
+            // I don't want to spam my subscribers
+            status: {
+              privacyStatus: 'public'
+            }
           },
-          // I don't want to spam my subscribers
-          status: {
-            privacyStatus: 'private'
+          // This is for the callback function
+          part: 'snippet,status',
+
+          // Create the readable stream to upload the video
+          media: {
+            body: fs.createReadStream(video.file)
           }
         },
-        // This is for the callback function
-        part: 'snippet,status',
-
-        // Create the readable stream to upload the video
-        media: {
-          body: fs.createReadStream('video.mp4')
+        (err, data) => {
+          this.logger.info(err, data, 'Done.')
+          // process.exit()
+          return video;
         }
-      },
-      (err, data) => {
-        this.logger.info(err, data, 'Done.')
-        // process.exit()
-        return video;
-      }
-    )
-
+      )
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 

@@ -23,9 +23,8 @@ class YoutubeAuthCommand {
   }
 
   async run() {
-
     if (this.credentials.installed.access_token) {
-      console.log('We already have an access token, using it…')
+      console.log('We already have an access token, now you can execute the upload command …')
     } else {
       console.log('We do not have access_token so requiresting it...');
 
@@ -63,11 +62,7 @@ class YoutubeAuthCommand {
             return this.logger.error(err)
           }
 
-          this.logger.info('Got the tokens.')
-
           this.oauth.setCredentials(tokens)
-
-          this.logger.info(tokens);
 
           lien.end('The video is being uploaded. Check out the logs in the terminal.')
 
@@ -75,6 +70,8 @@ class YoutubeAuthCommand {
           this.credentials.installed.refresh_token = tokens.refresh_token;
 
           fs.writeFileSync(this.authFile, JSON.stringify(this.credentials));
+
+          this.logger.info(`Saving access_token and refresh_token into the file ${this.authFile}`);
 
           process.exit(0);
         });
