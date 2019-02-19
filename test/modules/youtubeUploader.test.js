@@ -1,6 +1,8 @@
 const YoutubeUploaderCommand = require('../../src/modules/YoutubeUploaderCommand');
 const assert = require('chai').assert;
 const sinon = require('sinon');
+const mock = require('mock-fs');
+
 
 describe('YoutubeUploader class', () => {
 
@@ -9,6 +11,11 @@ describe('YoutubeUploader class', () => {
     let youtubeApi = sinon.mock();
     let input = 'input.csv';
     let output = 'output.csv';
+
+    mock({
+      'input.csv': '{}',
+      'output.csv': '{}',
+    });
 
     let uploader = new YoutubeUploaderCommand(input, output, logger, youtubeApi);
 
