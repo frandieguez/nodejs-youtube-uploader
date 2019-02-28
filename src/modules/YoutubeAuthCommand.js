@@ -8,14 +8,16 @@ class YoutubeAuthCommand {
 
   /**
    * Create the handler.
-   * @param {string} input - Path to the input CSV file.
-   * @param {string} output - Path to the output CSV file.
-   * @param {Object} logger - The logger object to output logs into console
-   * @param {Object} youtubeApi - The youtubeApi gateway to upload videos to youtube
+   * @param {string}  input - Path to the input CSV file.
+   * @param {string}  output - Path to the output CSV file.
+   * @param {Object}  logger - The logger object to output logs into console
+   * @param {Object}  youtubeApi - The youtubeApi gateway to upload videos to youtube
+   * @param {Boolean} force - Whether to force the regeneration of access and refresh token
    */
-  constructor(logger, authFile) {
+  constructor(logger, authFile, force) {
     this.logger = logger;
     this.authFile = authFile;
+    this.force = force
 
     let youtubeAuth = JSON.parse(fs.readFileSync(this.authFile));
 
@@ -23,7 +25,7 @@ class YoutubeAuthCommand {
   }
 
   async run() {
-    if (this.credentials.installed.access_token) {
+    if (this.credentials.installed.access_token && !this.force) {
       console.log('We already have an access token, now you can execute the upload command …')
     } else {
       console.log('We do not have access_token so requiresting it...');

@@ -8,7 +8,11 @@ exports.desc =
 exports.builder = (yargs) => yargs
   .option('config', {
     demand: true,
-    alias: 'a',
+    alias: 'c',
+  })
+  .option('force', {
+    demand: false,
+    alias: 'f',
   })
 exports.handler = async (argv) => {
 
@@ -24,7 +28,7 @@ exports.handler = async (argv) => {
     ]
   });
 
-  let command = new YoutubeAuthCommand(logger, argv.config);
+  let command = new YoutubeAuthCommand(logger, argv.config, argv.force);
 
   await command.run();
 }
