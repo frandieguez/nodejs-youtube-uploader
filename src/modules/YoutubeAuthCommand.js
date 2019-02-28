@@ -26,9 +26,9 @@ class YoutubeAuthCommand {
 
   async run() {
     if (this.credentials.installed.access_token && !this.force) {
-      console.log('We already have an access token, now you can execute the upload command …')
+      this.logger.info('We already have an access token, now you can execute the upload command …')
     } else {
-      console.log('We do not have access_token so requiresting it...');
+      this.logger.info('We do not have access_token so requiresting it...');
 
       let params = {
         type: 'oauth',

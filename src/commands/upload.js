@@ -1,6 +1,8 @@
 const YoutubeUploaderCommand = require('../modules/YoutubeUploaderCommand');
 const winston = require('winston');
-const fs = require('fs')
+const fs = require('fs');
+const csv = require('async-csv');
+const Youtube = require('youtube-api');
 
 exports.command = 'upload [input] [output]'
 exports.desc =
@@ -35,9 +37,9 @@ exports.handler = (argv) => {
     ]
   });
 
-  let youtubeAuth = JSON.parse(fs.readFileSync(argv.config));
+  let credentials = JSON.parse(fs.readFileSync(argv.config));
 
-  let command = new YoutubeUploaderCommand(argv.input, argv.output, logger, youtubeAuth);
+  let command = new YoutubeUploaderCommand(logger, Youtube, csv, argv.input, argv.output, credentials);
 
   command.run()
 }
