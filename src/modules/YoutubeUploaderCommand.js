@@ -1,22 +1,24 @@
 const fs = require('fs');
-const csv = require('async-csv');
-const Youtube = require('youtube-api');
 
 /** Class that handles the video uploading processs. */
 class YoutubeUploaderCommand {
 
   /**
    * Create the handler.
-   * @param {string} input - Path to the input CSV file.
-   * @param {string} output - Path to the output CSV file.
    * @param {Object} logger - The logger object to output logs into console
    * @param {Object} youtubeApi - The youtubeApi gateway to upload videos to youtube
+   * @param {Object} csvParser - The youtubeApi gateway to upload videos to youtube
+   * @param {string} input - Path to the input CSV file.
+   * @param {string} output - Path to the output CSV file.
+   * @param {Object} credentials - the object containing the api credentials
    */
-  constructor(input, output, logger, credentials) {
+  constructor(logger, youtubeApi, csvParser, input, output, credentials) {
     this.input = input;
     this.output = output;
     this.logger = logger;
     this.credentials = credentials;
+    this.youtubeApi = youtubeApi;
+    this.csv = csvParser;
 
     if (!fs.existsSync(this.input)) {
       throw new Error(`Input file '${this.input}' doesnt exists`)
@@ -25,13 +27,25 @@ class YoutubeUploaderCommand {
     if (!fs.existsSync(this.output)) {
       throw new Error(`Output file '${this.output}' doesnt exists`)
     }
+
+    if (!this.logger) {
+      throw new Error(`Logger is not valid`)
+    }
+
+    if (!this.youtubeApi) {
+      throw new Error(`Youtube Api not valid`)
+    }
+
+    if (!this.csv) {
+      throw new Error(`CSV Parser not valid`)
+    }
   }
 
   /**
    * Runs the command
    */
   async run() {
-    this.oauth = await Youtube.authenticate({
+    this.oauth = await this.youtubeApi.authenticate({
       type: 'oauth',
       client_id: this.credentials.installed.client_id,
       client_secret: this.credentials.installed.client_secret,
@@ -47,7 +61,7 @@ class YoutubeUploaderCommand {
       for (let index = 0; index < results.length; index++) {
         const video = results[index];
         let result = await this.uploadVideo(video)
-        console.log(`finished ${result}`);
+        video.url = result
       }
 
       // Save uplading results into the output file
@@ -63,10 +77,10 @@ class YoutubeUploaderCommand {
    * @param {string} filePath The input file path to parse
    * @return {array}
    */
-  parseCsvFile(filePath) {
+  async parseCsvFile(filePath) {
     let input = fs.readFileSync(filePath);
 
-    return csv.parse(input, {
+    return this.csv.parse(input, {
       columns: true
     });
   }
@@ -77,7 +91,7 @@ class YoutubeUploaderCommand {
    * @param {string} filePath The output file
    */
   async saveOutputfile(filePath, data) {
-    let output = await csv.stringify(data);
+    let output = await this.csv.stringify(data);
 
     return fs.writeFileSync(filePath, output);
   }
@@ -85,13 +99,13 @@ class YoutubeUploaderCommand {
   /**
    * Uploads a video to youtube
    *
-   * @param {Object} video the video object to use to upload it to youtube
+   * @param {Object} video the video object to upload it to youtube
    */
   async uploadVideo(video) {
     this.logger.info(`Uploading video: ${video.title}`)
     try {
       // var req =
-      await Youtube.videos.insert({
+      await this.youtubeApi.videos.insert({
           resource: {
             // Video title and description
             snippet: {
@@ -112,13 +126,19 @@ class YoutubeUploaderCommand {
           }
         },
         (err, data) => {
-          this.logger.info(err, data, 'Done.')
-          // process.exit()
-          return video;
+          if (err) {
+            this.logger.info('Error uploading the video', err);
+
+            return;
+          }
+
+          this.logger.info(`Video uploaded! ID: ${data.id}`);
+
+          return data.id;
         }
       )
     } catch (e) {
-      console.log(e)
+      this.logger.error(`Error while uploading the video`, e);
     }
   }
 }
