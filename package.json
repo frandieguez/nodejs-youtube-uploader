@@ -1,8 +1,8 @@
 {
-  "name": "onm-youtube-uploader",
+  "name": "nodejs-youtube-uploader",
   "version": "0.0.1",
   "bin": {
-    "onm-youtube-uploader": "dist/onm-youtube-uploader"
+    "youtube-uploader": "dist/youtube-uploader"
   },
   "main": "dist/main.js",
   "keywords": [
