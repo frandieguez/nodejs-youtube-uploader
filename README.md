@@ -1,5 +1,7 @@
 # NodeJS Youtube uploader
 
+[![Build Status](https://travis-ci.org/frandieguez/nodejs-youtube-uploader.svg?branch=master)](https://travis-ci.org/frandieguez/nodejs-youtube-uploader)
+
 The NodeJS Youtube Uploader (nodejs-youtube-uploader) is a tool that helps you
 to upload local video files from to Youtube.
 
