@@ -18,6 +18,8 @@ describe('YoutubeAuthCommand class', () => {
     let uploader = new YoutubeAuthCommand(loggerMock, authFile, force);
 
     assert.equal(loggerMock, uploader.logger);
+
+    mock.restore();
   });
 
 });

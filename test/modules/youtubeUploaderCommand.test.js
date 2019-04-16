@@ -32,6 +32,8 @@ describe('YoutubeUploaderCommand class', () => {
       Error,
       'Logger is not valid'
     );
+
+    mock.restore();
   });
 
   it('should have the input file on construct', function () {
@@ -59,6 +61,8 @@ describe('YoutubeUploaderCommand class', () => {
       Error,
       `Input file 'null' doesnt exists`
     );
+
+    mock.restore();
   });
 
   it('should have the output file on construct', function () {
@@ -86,6 +90,8 @@ describe('YoutubeUploaderCommand class', () => {
       Error,
       `Output file 'null' doesnt exists`
     );
+
+    mock.restore();
   });
 
   it('should have the Youtube Api on construct', function () {
@@ -113,6 +119,8 @@ describe('YoutubeUploaderCommand class', () => {
       Error,
       `Youtube Api not valid`
     );
+
+    mock.restore();
   });
 
 });
