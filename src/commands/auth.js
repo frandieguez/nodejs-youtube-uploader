@@ -3,8 +3,8 @@ const winston = require('winston');
 
 exports.command = 'authenticate'
 exports.desc =
-  'Parses an input CSV file containing metadata of ' +
-  'videos and then uploads them to Youtube'
+  'Retrieves or updates the Youtube API tokens using a ' +
+  'source .json file with tokens downloaded from GCP.'
 exports.builder = (yargs) => yargs
   .option('config', {
     demand: true,
