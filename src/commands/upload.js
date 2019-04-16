@@ -11,7 +11,7 @@ exports.desc =
 exports.builder = (yargs) => yargs
   .option('config', {
     demand: true,
-    alias: 'a',
+    alias: 'c',
   })
   .positional('input', {
     type: 'string',
