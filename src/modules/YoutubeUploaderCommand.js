@@ -60,8 +60,10 @@ class YoutubeUploaderCommand {
       // Iterate over all videos and upload them.
       for (let index = 0; index < results.length; index++) {
         const video = results[index];
-        let result = await this.uploadVideo(video)
-        video.url = result
+
+        video.url = await this.uploadVideo(video);
+
+        results[index] = video;
       }
 
       // Save uplading results into the output file
@@ -138,7 +140,7 @@ class YoutubeUploaderCommand {
         }
       )
     } catch (e) {
-      this.logger.error(`Error while uploading the video`, e);
+      this.logger.error(`Error while uploading the video `, e);
     }
   }
 }
