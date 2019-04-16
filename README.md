@@ -1,6 +1,6 @@
-# Opennemas Youtube uploader
+# NodeJS Youtube uploader
 
-The Opennemas Youtube Uploader (onm-youtube-uploader) is a tool that helps you
+The NodeJS Youtube Uploader (nodejs-youtube-uploader) is a tool that helps you
 to upload local video files from to Youtube.
 
 ## Requirements
@@ -12,7 +12,7 @@ to upload local video files from to Youtube.
 
 1. Clone this repository.
 
-        git clone git@bitbucket.org:opennemas/onm-youtube-uploader.git
+        git clone git@github.com:frandiegeuz/nodejs-youtube-uploader.git
 
 2. Install dependencies included in package.json.
 
@@ -20,9 +20,9 @@ to upload local video files from to Youtube.
 
 4. Check if the tool executes successfully.
 
-        ./bin/onm-youtube-uploader --help
+        ./bin/youtube-uploader --help
 
-The `onm-youtube-uploader` script tries to discover the command for the node
+The `nodejs-youtube-uploader` script tries to discover the command for the node
 executable. If you already know the executable for node you can use the tool
 directly with the following command:
 
@@ -30,7 +30,7 @@ directly with the following command:
 
 ## Commands
 
-The `onm-youtube-uploader` tool supports the following commands.
+The `nodejs-youtube-uploader` tool supports the following commands.
 
 ### Upload
 
@@ -38,7 +38,7 @@ The `upload` command parses an input CSV file, uploads files to Youtube and writ
 a CSV file in an output file.
 To know more about the options for the `upload` command execute
 
-    ./bin/onm-youtube-uploader upload --help
+    ./bin/nodejs-youtube-uploader upload --help
 
 #### Upload parameters
 
