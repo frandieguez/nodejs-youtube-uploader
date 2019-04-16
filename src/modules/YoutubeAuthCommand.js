@@ -8,6 +8,7 @@ class YoutubeAuthCommand {
 
   /**
    * Create the handler.
+   *
    * @param {string}  input - Path to the input CSV file.
    * @param {string}  output - Path to the output CSV file.
    * @param {Object}  logger - The logger object to output logs into console
