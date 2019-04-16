@@ -32,6 +32,14 @@ directly with the following command:
 
 The `nodejs-youtube-uploader` tool supports the following commands.
 
+### Authenticate
+
+The `authenticate` command fetches or updates the credentials from Youtube API using
+a local credentials.json file that was previously downloaded from GCC (https://console.cloud.google.com/home/dashboard)
+To know more about the options for the `authenticate` command execute
+
+    ./bin/nodejs-youtube-uploader auhtenticate --help
+
 ### Upload
 
 The `upload` command parses an input CSV file, uploads files to Youtube and writes
